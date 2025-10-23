@@ -22,7 +22,7 @@ def draw(I,xI=None,fig=None,function=np.sum,**kwargs):
 
     Returns:
     --------
-    axs : list of matplotlib.axes
+    axs : np.array of matplotlib.axes
         Each element of axs contains 1 of the 3 cardinal views of I        
     """
     if xI is None:
@@ -79,7 +79,21 @@ def getslice(I,ax):
 
 def interp(xI,I,Xs,**kwargs):
     """
-    Interpolate
+    Interpolate ...
+
+    Parameters:
+    -----------
+    xI : list of array
+        A list of the coordinates along each dimension of I
+    I : array
+        A 3D image volume
+    Xs : ...
+        ...
+
+    Returns:
+    --------
+    output : torch.Tensor
+        ...
     """
     Xs = Xs - torch.stack([x[0] for x in xI])
     Xs = Xs / torch.stack([x[-1] - x[0] for x in xI])
@@ -91,6 +105,20 @@ def interp(xI,I,Xs,**kwargs):
 def interp1d(xI,squish,Xs,**kwargs):
     """
     Hack for 1D interpolation
+
+    Parameters:
+    -----------
+    xI : list of array
+        A list of the coordinates along each dimension of I
+    squish : ...
+        ...
+    Xs : ...
+        ...
+
+    Returns:
+    --------
+    output : ...
+        ...
     """
     # set up a hack for 1d interplation    
     # grid sample supports 2D
@@ -108,7 +136,19 @@ def interp1d(xI,squish,Xs,**kwargs):
 # we need integration of v, note there is NO batch dimension
 def phii_from_v(xv,v):
     """
-    ???
+    ...
+
+    Parameters:
+    -----------
+    xv : ...
+        ...
+    v : ...
+        ...
+
+    Returns:
+    --------
+    phii : torch.Tensor
+        ...
     """
     dt = 1.0/v.shape[0]
     XV = torch.stack(torch.meshgrid(xv,indexing='ij'),-1)
@@ -121,7 +161,19 @@ def phii_from_v(xv,v):
 
 def toblocks(Jd,blocksize):
     """
-    ???
+    ...
+
+    Parameters:
+    -----------
+    Jd : ...
+        ...
+    blocksize : int
+        ...
+
+    Returns:
+    --------
+    Jdpp : ...
+        ...
     """
     nblocks = torch.ceil(torch.tensor(Jd.shape[1:],**dd)/blocksize ).to(int)
     topad = nblocks*blocksize - torch.tensor(Jd.shape[1:],device=device)
@@ -134,7 +186,19 @@ def toblocks(Jd,blocksize):
 
 def fromblocks(fphiIpp,Jdsize):
     """
-    ???
+    ...
+
+    Parameters:
+    -----------
+    fphiIpp : ...
+        ...
+    Jdsize : ...
+        ...
+
+    Returns:
+    --------
+    output : ...
+        ...
     """
     # undo the permutation
     blocksize = fphiIpp.shape[-1]
@@ -150,7 +214,25 @@ def fromblocks(fphiIpp,Jdsize):
 
 def measure_matching_dot(qIU,wIU,phiiQJU,wphiiQJU,SigmaQIU):
     """
-    ???
+    ...
+
+    Parameters:
+    -----------
+    qIU : ...
+        ...
+    wIU : ...
+        ...
+    phiiQJU : ...
+        ...
+    wphiiQJU : ...
+        ...
+    SigmaQIU : ...
+        ...
+
+    Returns:
+    --------
+    output : ...
+        ...
     """
     K = torch.exp( - torch.sum( (qIU[:,None] - phiiQJU[None,:])**2/2/SigmaQIU , -1) )*wIU[:,None]*wphiiQJU[None,:]
     return torch.sum(K)
