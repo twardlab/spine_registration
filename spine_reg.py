@@ -51,7 +51,9 @@ def draw(I,xI=None,fig=None,function=np.sum,**kwargs):
     ax = fig.add_subplot(3,1,3)
     ax.imshow(function(I,-1).squeeze(),extent=(xI[-2][0]-dI[-2]/2, xI[-2][-1]+dI[-2]/2, xI[-3][-1]+dI[-3]/2, xI[-3][0]-dI[-3]/2),**kwargs)
     axs.append(ax)
-    return np.array(axs)
+
+    # 12/03/25: Changed return from np.array(axs) to fig, axs. This was done so that a user could save the figure as a file if desired
+    return fig, axs
 
 
 def getslice(I,ax):
