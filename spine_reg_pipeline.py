@@ -56,14 +56,16 @@ def main():
     parser.add_argument('e_path', type=str, help= 'The location of the custom Python library \'emlddmm\', which can be cloned from GitHub at https://github.com/twardlab/emlddmm')
     
     parser.add_argument('-device', type=str, default = 'cpu', help = 'Default - cpu; The device where registration computations should occur')
-    parser.add_argument('-dtype', type=torch.dtype, default = torch.float32, help = 'Default - torch.float32; The data type used for image registration')
-    parser.add_argument('-niter', dtype = int, default = 5000, help = 'Default - 5000; The number of iterations to use for image registration')
+    parser.add_argument('-dtype', type = torch.dtype, default = torch.float32, help = 'Default - torch.float32; The data type used for image registration')
+    parser.add_argument('-niter', type = int, default = 5000, help = 'Default - 5000; The number of iterations to use for image registration')
     parser.add_argument('-down', type = int, nargs = 3, default = [8,8,8], help = 'The factor used to downsample along each axis of I, respectively')
 
     parser.add_argument('-bs', '--blocksize', type=int, default = 20, help = 'TODO: ...')
 
     parser.add_argument('-v', '--verbose', action = 'store_true', help = 'Default - False; If present, print out several progress messages throughout the registration process')
     
+    parser.add_argument('-saveAllFigs', action = 'store_true', help = 'Default - False; If present, save every intermediate figure generated before, during, and after registration')
+
     parser.add_argument('-saveFigAtlas', action = 'store_true', help = 'Default - False; If present, save a MIP of the interpolated atlas provided')
     parser.add_argument('-saveFigAtlasLabels', action = 'store_true', help = 'Default - False; If present, save a MIP of the interpolated atlas labels provided')
     parser.add_argument('-saveScatter', action = 'store_true', help = 'Default - False; If present, save a scatter plot of all the points labeled in the interpolated atlas porvided')
@@ -78,9 +80,11 @@ def main():
     e_path = args.e_path
     device = args.device
     dtype = args.dtype
+    niter = args.niter
     down = args.down
     blocksize = args.blocksize
     verbose = args.verbose
+    F = args.saveAllFigs
     saveFigAtlas = args.saveFigAtlas
     saveFigAtlasLabels = args.saveFigAtlasLabels
     saveScatter = args.saveScatter
@@ -190,15 +194,21 @@ def main():
     WJ = WJ*0+1
     sl = (slice(None),slice(24,-50,None),slice(50,-110,None),slice(200,-310,None))
 
-    if False:
-        draw((J*WJ)[sl],[x[s] for s,x in zip(sl[1:],xJ)],function=getslice)
-        draw((J*WJ)[sl],[x[s] for s,x in zip(sl[1:],xJ)])
+    if saveAllFigs:
+        fig, axs = draw((J*WJ)[sl],[x[s] for s,x in zip(sl[1:],xJ)],function=getslice)
+        fig.savefig(os.path.join(outdir, 'fig_target_slice0.png'))
 
-    if False:
-        draw(J*WJ,xJ,function=getslice)
+    if saveAllFigs:
+        fig, axs = draw((J*WJ)[sl],[x[s] for s,x in zip(sl[1:],xJ)])
+        fig.savefig(os.path.join(outdir, 'fig_target_MIP.png'))
 
-    if False:
-        draw(WJ,xJ,function=getslice)
+    if saveAllFigs:
+        fig, axs = draw(J*WJ,xJ,function=getslice)
+        fig.savefig(os.path.join(outdir, 'fig_target_slice1.png'))
+
+    if saveAllFigs:
+        fig, axs = draw(WJ,xJ,function=getslice)
+        fig.savefig(os.path.join(outdir, 'fig_target_slice2.png'))
 
     if verbose:
         print('Successfully loaded target image data and axes files . . .')
@@ -216,21 +226,24 @@ def main():
     qJU = qJU[np.random.randint(low=0,high=qJU.shape[0],size=nqU)]
     qJU = qJU + np.random.randn(*qJU.shape)*2
 
-    if False:
+    if saveAllFigs:
         fig = plt.figure()
         ax = fig.add_subplot(projection='3d')
         ax.scatter(*qJU.T)
-        ax.set_aspect('equal')    
+        ax.set_aspect('equal')
+        fig.savefig(os.path.join(outdir, 'fig_qJU_scatter.png'))
 
-    if False:
+    if saveAllFigs:
         fig,ax = plt.subplots()
         ax.imshow(J.sum((0,1)),extent=(xJ[2][0],xJ[2][-1],xJ[1][-1],xJ[1][0]))
         ax.plot(qJU[:,2],qJU[:,1])
+        fig.savefig(os.path.join(outdir, 'fig_qJU0.png'))
         
-    if False:
+    if saveAllFigs:
         fig,ax = plt.subplots()
         ax.imshow(J[0,:,J.shape[2]//2],extent=(xJ[2][0],xJ[2][-1],xJ[0][-1],xJ[0][0]))
         ax.plot(qJU[:,2],qJU[:,0])
+        fig.savefig(os.path.join(outdir, 'fig_qJU1.png'))
 
     if verbose:
         print('Successfully loaded target image points file . . .')
@@ -244,8 +257,9 @@ def main():
     xId,Id = emlddmm.downsample_image_domain(xI,I,down)
     xJd,Jd,WJd = emlddmm.downsample_image_domain([x[s] for x,s in zip(xJ,sl[1:])],J[sl],down,W=WJ[0][sl[1:]])    
 
-    if False:
-        draw(Jd*WJd,xJd,function=getslice)
+    if saveAllFigs:
+        fig, axs = draw(Jd*WJd,xJd,function=getslice)
+        fig.savefig(os.path.join(outdir, 'fig_target_down.png'))
 
     # Convert input data from Numpy to torch format
     dd = {'device':device,'dtype':dtype}
@@ -272,7 +286,7 @@ def main():
     expand = [1.02,1.2,1.2]
     dv = a*0.5
     vminmax = [(torch.min(x),torch.max(x)) for x in xId]
-    vr = torch.stack( [(x[1] - x[0]) for x in vminmax]       )
+    vr = torch.stack( [(x[1] - x[0]) for x in vminmax] )
     vc = torch.stack( [(x[1]+x[0])/2 for x in vminmax] )
     vminmax = vc + (vr*torch.tensor(expand,**dd))*torch.tensor([-1,1],**dd)[...,None]*0.5
     xv = [torch.arange(vm[0],vm[1],dv) for vm in vminmax.T]
@@ -298,14 +312,17 @@ def main():
     B = B / torch.sum(B,1,keepdims=True)
     squishb = B@squish
 
-    if False:
+    if saveAllFigs:
         fig,ax = plt.subplots()
         ax.plot(xv[0],squish.detach())
         ax.plot(xId[0],squishb.detach())
+        fig.savefig(os.path.join(outdir, 'fig_xv_xId.png'))
+        
 
-    if False:
+    if saveAllFigs:
         fig,ax = plt.subplots()
         ax.imshow(B)        
+        fig.savefig(os.path.join(outdir, 'fig_B.png'))
 
     # final permutation (fixed not being optimized)
     P = torch.eye(4)[[1,2,0,3]]
@@ -363,7 +380,6 @@ def main():
     axQ = figQ.add_subplot(projection='3d')
     axQ.cla()
     axQ.scatter(*qIU.T,label='qIU',alpha=0.1)
-    #axQ.scatter(*phiiQJU.detach().cpu().T,label='phiiQJU',alpha=0.1)
     axQ.legend()
     # hfigQ.update(figQ)
     
@@ -661,9 +677,9 @@ def main():
         # hfigS.update(figS)
         figS.savefig(os.path.join(outdir,f'out_S_it_{it:06d}.png'))
         
-    # ========================        
-    # ===== Save outputs =====
-    # ========================        
+    # =====================================        
+    # ===== Save all relevant outputs =====
+    # =====================================
 
     # First, save the relevant parameters
     np.savez(os.path.join(outdir,'saved_parameters.npz'),
@@ -758,11 +774,10 @@ def main():
     OUT = OUT.numpy()
 
     # Write it out
-    np.save(join(outdir,'interpolated_atlas_to_spine_reflection_v04.npy'),OUT)
+    np.save(os.path.join(outdir,'interpolated_atlas_to_spine_reflection_v04.npy'),OUT)
 
-    if False:
-        print()
-        # Save above figure
+    if saveAllFigs:
+        fig.savefig(os.path.join(outdir, 'fig_interp_atlas_to_spine.png'))
 
     # Save the forward and inverse transform
     with torch.no_grad():
@@ -828,14 +843,11 @@ def main():
         thisx = [[xI[0][i]],xI[1],xI[2]]
         thisX = np.stack(np.meshgrid(*thisx,indexing='ij'),-1)
         # interpolate Xs
-        #out = interp(xJd,(Xs-XJd).clone().detach().permute(-1,0,1,2),torch.tensor(thisX,**dd)).permute(1,2,3,0) + torch.tensor(thisX,**dd)
-        #out = interp(xId,(Xs).clone().detach().permute(-1,0,1,2),torch.tensor(thisX,**dd)).permute(1,2,3,0) 
         thisXfit = (fit[:3,:3]@thisX[...,None])[...,0] + fit[:3,-1]    
         out = interp(xId,(Xs-FIT).clone().detach().permute(-1,0,1,2),torch.tensor(thisX,**dd)).permute(1,2,3,0) + thisXfit.float()
         
         bad = out==0
         test = interp(xJd,Jd,out)
-        #
         ax[0].cla()
         ax[0].imshow((out[0] - out.min())/(out.max()-out.min()))
         ax[0].set_title(i)
@@ -852,18 +864,22 @@ def main():
     OUT = torch.concatenate(OUT)
     OUT = OUT.numpy()
 
-    if False:
-        print()
-        # Save above figure
+    if saveAllFigs:
+        fig.savefig(os.path.join(outdir, 'fig_high_res.png'))
 
-    if False:
+    if saveAllFigs:
         fig,ax = plt.subplots()
         ax.imshow((out[0] - out.min())/(out.max()-out.min()))
-        
+        fig.savefig(os.path.join(outdir, 'fig_high_res0.png'))
+
+    if saveAllFigs:
+        i = Xs.shape[0]-1
         fig,ax = plt.subplots()
         ax.imshow((Xs.detach()[i] - Xs.detach()[i].min())/(Xs.detach()[i].max()-Xs.detach()[i].min()))
-        # TODO: Save the above figure(s)
+        fig.savefig(os.path.join(outdir, 'fig_high_res1.png'))
 
+    if verbose:
+        print(f'Successfully registered {fname_J} to {fname_I} and saved all outputs in {outdir}')
 
 if __name__ == '__main__':
     main()

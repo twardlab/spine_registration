@@ -1,9 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import torch
-# import sys
-# sys.path.append('/home/abenneck/Desktop/emlddmm/')
-# import emlddmm
 
 def draw(I,xI=None,fig=None,function=np.sum,**kwargs):
     """
@@ -124,12 +121,10 @@ def interp1d(xI,squish,Xs,dd,**kwargs):
     output : ...
         ...
     """
-    # set up a hack for 1d interplation    
+    # Set up a hack for 1d interplation    
     # grid sample supports 2D
-    # so we will make it 2d
-    # use the slice coordinate as the first coordinate, and zeros as the second fake coordinate    
+    # Mke it 2d + use the slice coordinate as the first coordinate, and zeros as the second fake coordinate    
     samples = torch.stack([Xs[...,0].squeeze(),torch.zeros_like(Xs[...,0].squeeze())],-1)
-    #print(squish.shape)
     # for the input, we keep the channel dimension, keep the first coordinate, and add a fake second coordinate
     squishin = squish[:,:,None]
     out = interp([xI[0],torch.tensor([-0.5,0.5],**dd)],squishin,samples.reshape(-1,1,2),**kwargs)
