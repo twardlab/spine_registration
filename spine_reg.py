@@ -104,7 +104,7 @@ def interp(xI,I,Xs,**kwargs):
     return torch.nn.functional.grid_sample(I[None],Xs[None].flip(-1),align_corners=True,**kwargs)[0]
 
 
-def interp1d(xI,squish,Xs,**kwargs):
+def interp1d(xI,squish,Xs,dd,**kwargs):
     """
     Hack for 1D interpolation
 
@@ -116,6 +116,8 @@ def interp1d(xI,squish,Xs,**kwargs):
         ...
     Xs : ...
         ...
+    dd : dict
+        A Python dictionary with 2 keys \'device\' and \'dtype\', which specifies those 2 PyTorch paremeters for computation
 
     Returns:
     --------
