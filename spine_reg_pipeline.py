@@ -33,17 +33,19 @@ def main():
         Default - [8,8,8]; The factor used to downsample along each axis of I, respectively
     blocksize : int
         Default - 20; TODO: ...
-    saveFigAtlas : bool
+    saveFig0 : bool
         Default - False; If present, save a MIP of the interpolated atlas provided
-    saveFigAtlasLabels : bool
+    saveFig1 : bool
         Default - False; If present, save a MIP of the interpolated atlas labels provided
-    saveScatter : bool
+    saveFig2 : bool
         Default - False; If present, save a scatter plot of all the points labeled in the interpolated atlas porvided
 
     Raises:
     =======
     Exception
         If any of the 8 input files do not have the correct file extension
+    Exception
+        If a negative Jacobian arises during the registration loop
     """
 
     parser = argparse.ArgumentParser()
@@ -59,17 +61,30 @@ def main():
     parser.add_argument('-dtype', type = torch.dtype, default = torch.float32, help = 'Default - torch.float32; The data type used for image registration')
     parser.add_argument('-niter', type = int, default = 5000, help = 'Default - 5000; The number of iterations to use for image registration')
     parser.add_argument('-down', type = int, nargs = 3, default = [8,8,8], help = 'The factor used to downsample along each axis of I, respectively')
-
     parser.add_argument('-bs', '--blocksize', type=int, default = 20, help = 'TODO: ...')
 
     parser.add_argument('-v', '--verbose', action = 'store_true', help = 'Default - False; If present, print out several progress messages throughout the registration process')
     
     parser.add_argument('-saveAllFigs', action = 'store_true', help = 'Default - False; If present, save every intermediate figure generated before, during, and after registration')
-
-    parser.add_argument('-saveFigAtlas', action = 'store_true', help = 'Default - False; If present, save a MIP of the interpolated atlas provided')
-    parser.add_argument('-saveFigAtlasLabels', action = 'store_true', help = 'Default - False; If present, save a MIP of the interpolated atlas labels provided')
-    parser.add_argument('-saveScatter', action = 'store_true', help = 'Default - False; If present, save a scatter plot of all the points labeled in the interpolated atlas porvided')
-
+    parser.add_argument('-saveIntermediateFigs', action = 'store_true', help = 'Default - false; If present, save intermediate figures at each iteration of the registration process')
+    parser.add_argument('-saveFig0', action = 'store_true', help = 'Default - False; If present, save a MIP of the interpolated atlas provided')
+    parser.add_argument('-saveFig1', action = 'store_true', help = 'Default - False; If present, save a MIP of the interpolated atlas labels provided')
+    parser.add_argument('-saveFig2', action = 'store_true', help = 'Default - False; If present, save a scatter plot of all the points labeled in the interpolated atlas porvided')
+    parser.add_argument('-saveFig3',  action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig4',  action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig5',  action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig6',  action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig7',  action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig8',  action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig9',  action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig10', action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig11', action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig12', action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig13', action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig14', action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig15', action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig16', action = 'store_true', help = 'Default - False; If present, ')
+    
     args = parser.parse_args()
 
     fname_I = args.fname_I
@@ -84,10 +99,26 @@ def main():
     down = args.down
     blocksize = args.blocksize
     verbose = args.verbose
-    F = args.saveAllFigs
-    saveFigAtlas = args.saveFigAtlas
-    saveFigAtlasLabels = args.saveFigAtlasLabels
-    saveScatter = args.saveScatter
+    
+    saveAllFigs = args.saveAllFigs
+    saveIntermediateFigs = args.saveIntermediateFigs
+    saveFig0  = args.saveFig0
+    saveFig1  = args.saveFig1
+    saveFig2  = args.saveFig2
+    saveFig3  = args.saveFig3
+    saveFig4  = args.saveFig4
+    saveFig5  = args.saveFig5
+    saveFig6  = args.saveFig6
+    saveFig7  = args.saveFig7
+    saveFig8  = args.saveFig8
+    saveFig9  = args.saveFig9
+    saveFig10 = args.saveFig10
+    saveFig11 = args.saveFig11
+    saveFig12 = args.saveFig12
+    saveFig13 = args.saveFig13
+    saveFig14 = args.saveFig14
+    saveFig15 = args.saveFig15
+    saveFig16 = args.saveFig16
 
     sys.path.append(e_path)
     import emlddmm
@@ -125,7 +156,7 @@ def main():
     
     I = I/I.max()
 
-    if saveFigAtlas:
+    if saveAllFigs or saveFig0:
         fig, axs = draw(I,xI,function=getslice)
         fig.savefig(os.path.join(outdir, 'interp_atlas.png'))
 
@@ -139,7 +170,7 @@ def main():
     L = data_L['I']%256
     xL = data_L['xI']
 
-    if saveFigAtlasLabels:
+    if saveAllFigs or saveFig1:
         fig, axs = draw((L%256)==16,xI,)
         fig.savefig(os.path.join(outdir, 'interp_atlas_labels.png'))
 
@@ -147,7 +178,7 @@ def main():
     nqU = 1000
     qIU = qIU[np.random.permutation(qIU.shape[0])[:nqU]]
 
-    if saveScatter:
+    if saveAllFigs or saveFig2:
         fig = plt.figure()
         ax = fig.add_subplot(projection='3d')
         ax.scatter(*qIU.T)
@@ -194,26 +225,26 @@ def main():
     WJ = WJ*0+1
     sl = (slice(None),slice(24,-50,None),slice(50,-110,None),slice(200,-310,None))
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig3:
         fig, axs = draw((J*WJ)[sl],[x[s] for s,x in zip(sl[1:],xJ)],function=getslice)
-        fig.savefig(os.path.join(outdir, 'fig_target_slice0.png'))
+        fig.savefig(os.path.join(outdir, 'fig2_target_slice0.png'))
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig4:
         fig, axs = draw((J*WJ)[sl],[x[s] for s,x in zip(sl[1:],xJ)])
-        fig.savefig(os.path.join(outdir, 'fig_target_MIP.png'))
+        fig.savefig(os.path.join(outdir, 'fig3_target_MIP.png'))
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig5:
         fig, axs = draw(J*WJ,xJ,function=getslice)
-        fig.savefig(os.path.join(outdir, 'fig_target_slice1.png'))
+        fig.savefig(os.path.join(outdir, 'fig4_target_slice1.png'))
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig6:
         fig, axs = draw(WJ,xJ,function=getslice)
-        fig.savefig(os.path.join(outdir, 'fig_target_slice2.png'))
+        fig.savefig(os.path.join(outdir, 'fig5_target_slice2.png'))
 
     if verbose:
         print('Successfully loaded target image data and axes files . . .')
 
-    # Initialzie qJU, which is ...
+    # Initialzie qJU, which is TODO
     qJU = []
     with open(fname_pointsJ) as f:
         for line in f:
@@ -226,24 +257,24 @@ def main():
     qJU = qJU[np.random.randint(low=0,high=qJU.shape[0],size=nqU)]
     qJU = qJU + np.random.randn(*qJU.shape)*2
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig7:
         fig = plt.figure()
         ax = fig.add_subplot(projection='3d')
         ax.scatter(*qJU.T)
         ax.set_aspect('equal')
-        fig.savefig(os.path.join(outdir, 'fig_qJU_scatter.png'))
+        fig.savefig(os.path.join(outdir, 'fig6_qJU_scatter.png'))
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig8:
         fig,ax = plt.subplots()
         ax.imshow(J.sum((0,1)),extent=(xJ[2][0],xJ[2][-1],xJ[1][-1],xJ[1][0]))
         ax.plot(qJU[:,2],qJU[:,1])
-        fig.savefig(os.path.join(outdir, 'fig_qJU0.png'))
+        fig.savefig(os.path.join(outdir, 'fig7_qJU0.png'))
         
-    if saveAllFigs:
+    if saveAllFigs or saveFig9:
         fig,ax = plt.subplots()
         ax.imshow(J[0,:,J.shape[2]//2],extent=(xJ[2][0],xJ[2][-1],xJ[0][-1],xJ[0][0]))
         ax.plot(qJU[:,2],qJU[:,0])
-        fig.savefig(os.path.join(outdir, 'fig_qJU1.png'))
+        fig.savefig(os.path.join(outdir, 'fig8_qJU1.png'))
 
     if verbose:
         print('Successfully loaded target image points file . . .')
@@ -253,13 +284,12 @@ def main():
     # =========================
 
     # Downsample the atlas image, I
-    down = [8,8,8]
     xId,Id = emlddmm.downsample_image_domain(xI,I,down)
     xJd,Jd,WJd = emlddmm.downsample_image_domain([x[s] for x,s in zip(xJ,sl[1:])],J[sl],down,W=WJ[0][sl[1:]])    
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig10:
         fig, axs = draw(Jd*WJd,xJd,function=getslice)
-        fig.savefig(os.path.join(outdir, 'fig_target_down.png'))
+        fig.savefig(os.path.join(outdir, 'fig9_target_down.png'))
 
     # Convert input data from Numpy to torch format
     dd = {'device':device,'dtype':dtype}
@@ -278,7 +308,7 @@ def main():
     qJU = torch.tensor(qJU,**dd)
     SigmaQIU = torch.tensor(SigmaQIU,**dd)
 
-    # Deformation
+    # Initialize parameters for deformation portion of registration
     nt = 5
     dt = 1.0/nt
     a = 200.0
@@ -294,37 +324,31 @@ def main():
     nv = [len(x) for x in xv]
     fv = [torch.arange(n)/n/dv for n in XV.shape[:3]]
     FV = torch.stack(torch.meshgrid(fv,indexing='ij'),-1)
-    
     LL = (1.0 + 2.0*a**2 * torch.sum(  (1.0 - torch.cos(2.0*np.pi*FV*dv))/dv**2,   -1))**(2.0*p)
-    K = 1.0/LL
-    
+    K = 1.0/LL    
     v = torch.zeros(nt,*nv,3,requires_grad=True)
-
-    # More deformation
     theta = torch.zeros(nv[0],requires_grad=True,**dd)
     T = torch.zeros((nv[0],2),requires_grad=True,**dd)
     squish = torch.ones(nv[0],**dd)*(-0.4) # exponentiate it (-0.1 was good), -1 makes it very short and fat in the coronal plane
     squish.requires_grad = True
-    
-    # I'm going to use a kernel matrix
     B = torch.exp( -(xv[0][None,:] - xId[0][:,None])**2/2/5000**2)
     B = torch.exp( -(xv[0][None,:] - xId[0][:,None])**2/2/2000**2)
     B = B / torch.sum(B,1,keepdims=True)
     squishb = B@squish
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig11:
         fig,ax = plt.subplots()
         ax.plot(xv[0],squish.detach())
         ax.plot(xId[0],squishb.detach())
-        fig.savefig(os.path.join(outdir, 'fig_xv_xId.png'))
+        fig.savefig(os.path.join(outdir, 'fig10_xv_xId.png'))
         
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig12:
         fig,ax = plt.subplots()
         ax.imshow(B)        
-        fig.savefig(os.path.join(outdir, 'fig_B.png'))
+        fig.savefig(os.path.join(outdir, 'fig11_B.png'))
 
-    # final permutation (fixed not being optimized)
+    # Initalize the final permutation
     P = torch.eye(4)[[1,2,0,3]]
     A = P
     A.requires_grad = True
@@ -336,7 +360,6 @@ def main():
     XX = torch.sum(XId[...,None]*XId[...,None,:],(0,1,2))
     O = torch.sum(torch.ones_like(XId[...,0]))
     XXO = torch.diag(torch.concatenate((torch.diag(XX),O[None])))
-
     g = torch.zeros((12,12),**dd)
     count = 0
     for i in range(3):
@@ -348,49 +371,34 @@ def main():
                     Eij_ = (torch.arange(4,**dd)==i_)[...,None]*(torch.arange(4,**dd)==j_)[...,None,:]*1.0
                     g[count,count_] = torch.trace( XXO@(Eij.T@Eij_) )
     
-                    count_ += 1
-                    
+                    count_ += 1 
             count += 1
     gi = torch.linalg.inv(g)
-
     dJd = [(x[1] - x[0]).item() for x in xJd]
 
     # ========================
     # ===== Registration ===== 
     # ========================
     figE,axE = plt.subplots(3,4)
-    # hfigE = display(figE,display_id=True)
     axE = axE.ravel()
-    
     figI = plt.figure()
-    # hfigI = display(figI,display_id=True)
-    
     figErr = plt.figure()
-    # hfigErr = display(figErr,display_id=True)
-    
-    
     figJ = plt.figure()
-    # hfigJ = display(figJ,display_id=True)
     draw(Jd.detach(),xJd,function=getslice,fig=figJ,aspect='auto')
     figJ.canvas.draw()
-    # hfigJ.update(figJ)
     
     figQ = plt.figure()
-    # hfigQ = display(figQ,display_id=True)
     axQ = figQ.add_subplot(projection='3d')
     axQ.cla()
     axQ.scatter(*qIU.T,label='qIU',alpha=0.1)
     axQ.legend()
-    # hfigQ.update(figQ)
     
-    
+    # Initialize output figures data structures for storing output data
     nrow = 6
     ncol = 4
     figS,axS = plt.subplots(nrow,ncol)
     figS.subplots_adjust(left=0,right=1,bottom=0,top=1,hspace=0,wspace=0)
-    axS = axS.ravel()
-    # hfigS = display(figS,display_id=True)
-        
+    axS = axS.ravel()        
     Esave = []
     Tsave = [] # the max
     squishsave = []
@@ -400,87 +408,60 @@ def main():
     ATsave = []
     update_v = False
     vstart = -1
-    #vstart = 100 # debug
     blocksize = 50
     
-    
-    # step sizes
-    
+    # Initalize various step sizes
     epv = 5e4
-    
     eptheta = 5e-4
     epSquish = 2e-4
     epT = 2e2
-    
     measureMatchingSigma = SigmaQIU*5**2
-    
-    
     sigmaM = (1e5)**0.5
-    # test
-    #sigmaM = sigmaM*10
     sigmaR = 1e5
     sigmaR = 2e5
-    sigmaQU = 1e-1*50
-    
+    sigmaQU = 1e-1*50    
     wIU = torch.ones_like(qIU[...,0])#/qIU.shape[0]*qJU.shape[0]
     EQU0 = measure_matching_dot(qIU,wIU,qIU,wIU,measureMatchingSigma) # only compute once
+
+    # Begin the registration loop over 'niter' iterations
     for it in range(0,niter):
+
         if it > vstart:
             update_v = True
-    
         if it < 500:
             blocksize = 0
         elif it < 1000:
             blocksize = 50
         else:
             blocksize = 32
-        # clean up memory
+
+        # Clean up memory using garbage collection
         Xs = None
         Xs0 = None
         phii = None
         out = None
         gc.collect()
-    
-    
         
-        # blur 
+        # Apply blurs to barious data structures 
         thetab = B@theta
-        # blur T
         Tb = B@T
-        # blur Squish
         squishb = B@squish
     
-        
-    
-        # what is the sequence from J to I
-        # first inverse affine
+        # First, compute the inverse affine (Ai)
         Ai = torch.linalg.inv(A)[:3]
-        #Ai = torch.diag(torch.stack([(-stretch).exp(),torch.ones_like(stretch),torch.ones_like(stretch),torch.ones_like(stretch)]))@Ai
         Ai = torch.diag((-stretch).exp())@Ai
-        #Ai = torch.diag(torch.stack([(-stretch).exp(),torch.ones_like(stretch),torch.ones_like(stretch),torch.ones_like(stretch)]))@Ai
         Xs = (Ai[:3,:3]@XJd[...,None])[...,0] + Ai[:3,-1]
-        # second is the squish    
-    
-        # since these operations do not change the z coordinate
-        # I can interpolate them all at once
-        tosample = torch.concatenate((Tb.T,squishb[None],thetab[None]))    
+
+        # Second, compute the squish
+        tosample = torch.concatenate((Tb.T,squishb[None],thetab[None]))
         out = interp1d(xId,tosample,Xs,dd)
-    
-        
         Ts = out[0:2].permute(1,2,3,0)
         squishs = out[2]
         thetas = out[3]
-    
-        # these guys only need to be computed once
         eye = torch.diag(torch.ones(3,**dd),)[None,None,None].repeat(Ts.shape[0],Ts.shape[1],Ts.shape[2],1,1)
         zo = torch.tensor([0.0,0.0,0.0,1.0],**dd)[None,None,None,None].repeat(Ts.shape[0],Ts.shape[1],Ts.shape[2],1,1)
         z = torch.zeros_like(Ts[...,0,None],)
-    
-        # I don't think I need the bottom row
-        #Tmat = torch.concatenate( (eye, torch.concatenate((z,Ts),-1)[...,None] ) , -1)
-        Tcat =  torch.concatenate((z,Ts),-1)
-        
-        
+        Tcat =  torch.concatenate((z,Ts),-1)    
         squishmat = torch.diag_embed(  torch.stack([torch.ones_like(squishs),(-squishs).exp(),(squishs).exp()] ,-1 ) )
         rotmat = torch.stack([
             torch.stack([torch.ones_like(thetas),torch.zeros_like(thetas),torch.zeros_like(thetas)],-1),
@@ -491,24 +472,14 @@ def main():
         Xs = Xs - Tcat    
         Xs = (rotmat@squishmat@Xs[...,None])[...,0]
     
-        
-        # now the diffeo
-        #if update_v:
+        # Third, compute the diffeo
         phii = phii_from_v(xv,v)
         Xs = interp(xv,(phii-XV).permute(-1,0,1,2),Xs).permute(1,2,3,0) + Xs
-    
-        # image
         phiI = interp(xId,Id,Xs)
-    
-        # points
         phiiQJU = interp(xJd,Xs.permute(-1,0,1,2),qJU[None,None])[:,0,0].T
-        #dphii = torch.linalg.det( torch.stack(torch.gradient(Xs,spacing=dJd,dim=(0,1,2)),-1) )    
-        #dphii = interp(xJd,dphii[None],qJU[None,None])[:,0,0].T[...,0]
-        
-        #dphii = torch.sum((phiiQJU[1:] -  phiiQJU[:-1])**2,-1)**0.5/torch.sum((qJU[1:] -  qJU[:-1])**2,-1)**0.5
-        #phiiQJU = (phiiQJU[:-1] + phiiQJU[1:])*0.5
         dphii = torch.ones_like(phiiQJU[...,0])
-        if torch.any(dphii)<=0 : raise Exception('negative jacobian')
+        if torch.any(dphii)<=0:
+            raise Exception('Negative jacobian')
         
         # contrast
         if blocksize > 0:
@@ -531,64 +502,40 @@ def main():
             fphiI = fromblocks(fphiIpp,Jd.shape)
         else:
             fphiI = (phiI-muI)/(varI + 1e-6)*covIJ + muJ
-            
         err = (fphiI-Jd)
-        
         EM = (err**2*WJd).sum()/2.0*torch.prod(torch.stack([x[1] - x[0 ] for x in xJd])) /sigmaM**2
-    
-        
         ER = torch.sum(torch.sum(torch.abs(torch.fft.fftn(v,dim=(-4,-3,-2)))**2,(0,-1))*K)/2.0/nt/v[0,:,:,:,0].numel()/sigmaR**2*torch.prod(torch.stack([x[1] - x[0 ] for x in xJd])) 
     
-        # point matching
-        
+        # Point matching
         EQU = (EQU0 + -2*measure_matching_dot(qIU,wIU,phiiQJU,dphii,measureMatchingSigma) + measure_matching_dot(phiiQJU,dphii,phiiQJU,dphii,measureMatchingSigma))/2.0/sigmaQU**2
-        
-        
         E = EM + ER + EQU
         E.backward()
         Esave.append([E.item(),EM.item(),ER.item(),EQU.item()])
     
-        # draw it
+        # Draw the error figures
         draw(err.detach()*WJd,xJd,function=getslice,fig=figErr,aspect='auto')
         figErr.canvas.draw()
-    
         draw(fphiI.detach(),xJd,function=getslice,fig=figI,aspect='auto')
         figI.canvas.draw()
         
-        # update parameters    
+        # Update parameters + set gradients to 0
         theta.data = theta.data - theta.grad*eptheta
         theta.grad.zero_()
-        #print(thetab.abs().max())
-        
         
         T.data = T.data - T.grad*epT
         T.grad.zero_()
-        
-        #print(Tb.abs().max())
-    
-        
+
         squish.data = squish.data - squish.grad*epSquish
         squish.grad.zero_()
-        #print(squishb.abs().max())
         
         epStretch = 0
         stretch.data = stretch.data - stretch.grad*epStretch
         stretch.grad.zero_()
     
-        if update_v:        
-            
+        if update_v:
             v.data = v.data - torch.fft.ifftn((torch.fft.fftn(v.grad,dim=(1,2,3))*K[...,None]),dim=(1,2,3)).real * epv
             v.grad.zero_()
         
-    
-        
-        # 1e4 was working but slow, 1e5 still so slow
-        # 1e6 working much beter but still quite slow
-        # 1e7 was oscilating, but I can confirm that the alignment actually worked
-        # try 2e6
-        epA = 1e6
-        epA = 2e6
-        epA = 5e6
         epA = 2e6
         Agrad = (gi@A.grad[:3].ravel()).reshape(3,4)
         A.data[:3] = A.data[:3] - epA*Agrad
@@ -597,7 +544,7 @@ def main():
         ATsave.append(A[:3,-1].clone().detach().ravel().numpy())
     
     
-        # draw
+        # Generate plots showing all relevant registration variables
         axE[0].cla()
         axE[0].plot(Esave)
     
@@ -640,31 +587,17 @@ def main():
         
         figE.canvas.draw()
     
-    
         axQ.cla()
         axQ.scatter(*qIU.T,label='qIU',alpha=0.1)
         axQ.scatter(*phiiQJU.detach().cpu().T,label='phiiQJU',alpha=0.1)
         axQ.legend()
         figQ.canvas.draw()
-        figQ.savefig(os.path.join(outdir,f'out_Q_it_{it:06d}.png'))
+
+        if saveAllFigs or saveIntermediateFigs:
+            figQ.savefig(os.path.join(outdir,f'out_Q_it_{it:06d}.png'))
+            figErr.savefig(os.path.join(outdir,f'out_err_it_{it:06d}.png'))
         
-    
-    
-    
-        # hfigErr.update(figErr)
-        # hfigI.update(figI)
-        # hfigE.update(figE)
-        # hfigQ.update(figQ)
-        figErr.savefig(os.path.join(outdir,f'out_err_it_{it:06d}.png'))
-        
-        
-        
-    
-    
-        # show a better figure
-        
-        nshow = nrow*ncol    
-        
+        nshow = nrow*ncol            
         slices = np.round(np.linspace(0,Jd.shape[-1]-1,nshow+2)).astype(int)
         for i in range(nshow):
             Jshow = (Jd[0,:,:,slices[i]]*WJd[:,:,slices[i]]).numpy()
@@ -674,8 +607,8 @@ def main():
             axS[i].axis('off')
         
         figS.subplots_adjust(left=0,right=1,bottom=0,top=1,hspace=0,wspace=0)
-        # hfigS.update(figS)
-        figS.savefig(os.path.join(outdir,f'out_S_it_{it:06d}.png'))
+        if saveAllFigs or saveIntermediateFigs:
+            figS.savefig(os.path.join(outdir,f'out_S_it_{it:06d}.png'))
         
     # =====================================        
     # ===== Save all relevant outputs =====
@@ -776,8 +709,8 @@ def main():
     # Write it out
     np.save(os.path.join(outdir,'interpolated_atlas_to_spine_reflection_v04.npy'),OUT)
 
-    if saveAllFigs:
-        fig.savefig(os.path.join(outdir, 'fig_interp_atlas_to_spine.png'))
+    if saveAllFigs or saveFig13:
+        fig.savefig(os.path.join(outdir, 'fig12_interp_atlas_to_spine.png'))
 
     # Save the forward and inverse transform
     with torch.no_grad():
@@ -864,19 +797,19 @@ def main():
     OUT = torch.concatenate(OUT)
     OUT = OUT.numpy()
 
-    if saveAllFigs:
-        fig.savefig(os.path.join(outdir, 'fig_high_res.png'))
+    if saveAllFigs or saveFig14:
+        fig.savefig(os.path.join(outdir, 'fig13_high_res.png'))
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig15:
         fig,ax = plt.subplots()
         ax.imshow((out[0] - out.min())/(out.max()-out.min()))
-        fig.savefig(os.path.join(outdir, 'fig_high_res0.png'))
+        fig.savefig(os.path.join(outdir, 'fig14_high_res0.png'))
 
-    if saveAllFigs:
+    if saveAllFigs or saveFig16:
         i = Xs.shape[0]-1
         fig,ax = plt.subplots()
         ax.imshow((Xs.detach()[i] - Xs.detach()[i].min())/(Xs.detach()[i].max()-Xs.detach()[i].min()))
-        fig.savefig(os.path.join(outdir, 'fig_high_res1.png'))
+        fig.savefig(os.path.join(outdir, 'fig15_high_res1.png'))
 
     if verbose:
         print(f'Successfully registered {fname_J} to {fname_I} and saved all outputs in {outdir}')
