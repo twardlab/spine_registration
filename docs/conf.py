@@ -28,7 +28,6 @@ latex_documents = [
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-import os
 import sys
 sys.path.append('/home/abenneck/Desktop/spine_registration/source')
 sys.path.append('/home/runner/work/spine_registration/spine_registration/source')
