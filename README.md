@@ -1,5 +1,7 @@
 # Spine Registration
 
+https://twardlab.github.io/spine_registration/
+
 Final contents:
 - spine_reg.py
 - spine_reg_pipeline.py
