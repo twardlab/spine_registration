@@ -22,7 +22,7 @@ extensions = [
 
 # Configuration for LaTeX output
 latex_documents = [
-    ('index', 'registration_docs.tex', project, author, 'manual'),
+    ('index', 'spine_registration.tex', project, author, 'manual'),
 ]
 
 templates_path = ['_templates']
