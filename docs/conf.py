@@ -34,7 +34,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 import sys
 sys.path.append('/home/runner/work/spine_registration/spine_registration/docs')
-sys.path.append('/home/runner/work/spine_registration/spine_registration/docs/notebooks')
+# sys.path.append('/home/runner/work/spine_registration/spine_registration/docs/notebooks')
 sys.path.append('/home/runner/work/spine_registration/spine_registration/docs/scripts')
 
 # -- Options for HTML output -------------------------------------------------
