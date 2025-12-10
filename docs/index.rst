@@ -10,7 +10,6 @@ Welcome to the documentation for the spine image registration pipeline!
    :maxdepth: 1
    :caption: Table of Contents:
 
-   installation
    spine_reg
    spine_reg_pipeline
 
