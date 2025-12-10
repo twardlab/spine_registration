@@ -4,4 +4,3 @@ nbsphinx
 nibabel
 numpy
 torch
-gc
