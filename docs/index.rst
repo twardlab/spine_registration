@@ -13,12 +13,6 @@ Welcome to the documentation for the spine image registration pipeline!
    spine_reg
    spine_reg_pipeline
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Example Jupyter Notebook
-
-   notebooks/example
-
 Indices and tables
 ==================
 
