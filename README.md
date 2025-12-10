@@ -1,9 +1,11 @@
-# spine_registration
+# Spine Registration
 
-TODO for Andrew (october 8 2025).
+https://twardlab.github.io/spine_registration/
 
-Create one .py that includes all the functions (just use existing functions, we can modularize other code later).  This file can be imported from different notebooks.  Daniel will probably add new functoins to it as well.
+Final contents:
+- spine_reg.py
+- spine_reg_pipeline.py
+- example.ipynb
 
-Second, create another .py file which is intended to run the workflow of this notebook from the command line.
-
-Name them whatever you like within reason.
+TODO
+- Remove old notebook after docs and rst of repo are finished
