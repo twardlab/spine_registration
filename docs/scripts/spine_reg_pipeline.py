@@ -181,8 +181,8 @@ def main():
     xI = data_I['xI']
     I = I / I.max() # Normalize atlas values
 
-    lowert = 0.15 # TODO: Decide if this should be a passable argument
-    M = I<lowert # find a mask for the background
+    lowert = 0.15 # This is an atlas-dependent parameter - locally found at /nafs/dtward/spine_work/interpolated_atlas.npz
+    M = I<lowert
     I[M] = 1.0
     I = (1 - I)
     I = I - lowert
@@ -233,12 +233,17 @@ def main():
     # =====================================================================
     # ===== Load the target image data to be registered + axis values =====
     # =====================================================================
-    J = np.load(fname_J.replace('.npz','_I.npy'))
-    xJ = [
-        np.load(fname_J.replace('.npz','_xI0.npy')),
-        np.load(fname_J.replace('.npz','_xI1.npy')),
-        np.load(fname_J.replace('.npz','_xI2.npy')),
-    ]
+    try :
+        data_J = np.load(fname_J, allow_pickle = True)
+        J = data_J['I']
+        xJ = data_J['xI']
+    except :    
+        J = np.load(fname_J.replace('.npz','_I.npy'))
+        xJ = [
+            np.load(fname_J.replace('.npz','_xI0.npy')),
+            np.load(fname_J.replace('.npz','_xI1.npy')),
+            np.load(fname_J.replace('.npz','_xI2.npy')),
+        ]
 
     # If necessary, add a 4th dimension to J
     if J.ndim == 3:
@@ -249,8 +254,8 @@ def main():
     
     # Normalize J
     Jsave = J.copy()
-    low = 0 # TODO: Decide if this should be a passable argument
-    high = 1500 # TODO: Decide if this should be a passable argument
+    low = 0 # TODO: ADD AS ARG
+    high = 1500 # TODO: ADD AS ARG
     J = Jsave.copy().clip(low,high)
     WJ = 1.0 - (J == high)
     J = J - low
@@ -278,7 +283,7 @@ def main():
     if verbose:
         print('Successfully loaded target image data and axes files . . .')
 
-    # Initialzie qJU, which is TODO
+    # Initialzie qJU, which is a set of unlabeled points associated with the target image
     qJU = []
     with open(fname_pointsJ) as f:
         for line in f:
@@ -343,7 +348,7 @@ def main():
     SigmaQIU = torch.tensor(SigmaQIU,**dd)
 
     # Initialize parameters for deformation portion of registration
-    # TODO: Decide if any of these should be passable arguments
+    # TODO: Add nt, a, and p as arguments uaing the below values for default
     nt = 5
     dt = 1.0/nt
     a = 200.0
@@ -445,7 +450,7 @@ def main():
     vstart = -1
     
     # Initalize various step sizes
-    # TODO: Decide if any of these should be passable arguments
+    # TODO: All of these aside from measureMatchingSigma should be included
     epv = 5e4
     eptheta = 5e-4
     epSquish = 2e-4
