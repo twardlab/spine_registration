@@ -1,5 +1,5 @@
-Helper functions used to register spine images
-==============================================
+Helper functions
+================
 
 .. automodule:: spine_reg
    :members:
