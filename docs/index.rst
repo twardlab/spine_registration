@@ -3,16 +3,22 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to spine_registration's documentation!
-==============================================
+Welcome to the documentation for the spine image registration pipeline!
+=======================================================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Table of Contents:
 
    installation
    spine_reg
    spine_reg_pipeline
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Example Jupyter Notebook
+
+   notebooks/example.ipynb
 
 Indices and tables
 ==================
