@@ -26,19 +26,53 @@ def main():
     device : str
         Default - cpu; The device where registration computations should occur
     dtype : torch.dtype
-        Default - torch.float32; The data type used for image registration
+        Default - torch.float32; The data type used for the voxel values in image registration
     niter : int
         Default - 5000; The number of iterations to use for image registration
     down : list of int
         Default - [8,8,8]; The factor used to downsample along each axis of I, respectively
     blocksize : int
-        Default - 20; TODO: ...
+        Default - 50; TODO: ...
+    verbose : bool
+        Default - False; If present, print out several progress messages throughout the registration process
+    saveAllFigs : bool
+        Default - False; If present, save every intermediate figure generated before, during, and after registration
+    saveIntermediateFigs : bool
+        Default - false; If present, save intermediate figures at each iteration of the registration process
     saveFig0 : bool
         Default - False; If present, save a MIP of the interpolated atlas provided
     saveFig1 : bool
         Default - False; If present, save a MIP of the interpolated atlas labels provided
     saveFig2 : bool
         Default - False; If present, save a scatter plot of all the points labeled in the interpolated atlas porvided
+    saveFig3 : bool
+        Default - False; If present, save a standard view of the target data along all 3 cardinal axes
+    saveFig4 : bool
+        Default - False; If present, save a MIP of the target data along all 3 cardinal axes
+    saveFig5 : bool
+        Default - False; If present, save a standard view of the target data along all 3 cardinal axes
+    saveFig6 : bool
+        Default - False; If present, save a standard view of the target data along all 3 cardinal axes
+    saveFig7 : bool
+        Default - False; If present, save a save a scatter plot of all points along the AP axis
+    saveFig8 : bool
+        Default - False; If present, save a standard view of the qJU object along the AP axis
+    saveFig9 : bool
+        Default - False; If present, save a save a standard view of the qJU object along the AP axis with points superimposed
+    saveFig10 : bool
+        Default - False; If present, save a save a standard view of the downsampled target data along all 3 cardinal axes
+    saveFig11 : bool
+        Default - False; If present, save a save a plot of the xv*xId object
+    saveFig12 : bool
+        Default - False; If present, save a save a plot of the B object
+    saveFig13 : bool
+        Default - False; If present, save a color gradient
+    saveFig14 : bool
+        Default - False; If present, save a color gradient
+    saveFig15 : bool
+        Default - False; If present, save a color gradient
+    saveFig16 : bool
+        Default - False; If present, save a color gradient
 
     Raises:
     =======
@@ -61,7 +95,7 @@ def main():
     parser.add_argument('-dtype', type = torch.dtype, default = torch.float32, help = 'Default - torch.float32; The data type used for image registration')
     parser.add_argument('-niter', type = int, default = 5000, help = 'Default - 5000; The number of iterations to use for image registration')
     parser.add_argument('-down', type = int, nargs = 3, default = [8,8,8], help = 'The factor used to downsample along each axis of I, respectively')
-    parser.add_argument('-bs', '--blocksize', type=int, default = 20, help = 'TODO: ...')
+    parser.add_argument('-bs', '--blocksize', type=int, default = 50, help = 'TODO: ...')
 
     parser.add_argument('-v', '--verbose', action = 'store_true', help = 'Default - False; If present, print out several progress messages throughout the registration process')
     
@@ -70,20 +104,20 @@ def main():
     parser.add_argument('-saveFig0', action = 'store_true', help = 'Default - False; If present, save a MIP of the interpolated atlas provided')
     parser.add_argument('-saveFig1', action = 'store_true', help = 'Default - False; If present, save a MIP of the interpolated atlas labels provided')
     parser.add_argument('-saveFig2', action = 'store_true', help = 'Default - False; If present, save a scatter plot of all the points labeled in the interpolated atlas porvided')
-    parser.add_argument('-saveFig3',  action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig4',  action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig5',  action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig6',  action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig7',  action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig8',  action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig9',  action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig10', action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig11', action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig12', action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig13', action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig14', action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig15', action = 'store_true', help = 'Default - False; If present, ')
-    parser.add_argument('-saveFig16', action = 'store_true', help = 'Default - False; If present, ')
+    parser.add_argument('-saveFig3',  action = 'store_true', help = 'Default - False; If present, save a standard view of the target data along all 3 cardinal axes')
+    parser.add_argument('-saveFig4',  action = 'store_true', help = 'Default - False; If present, save a MIP of the target data along all 3 cardinal axes')
+    parser.add_argument('-saveFig5',  action = 'store_true', help = 'Default - False; If present, save a standard view of the target data along all 3 cardinal axes')
+    parser.add_argument('-saveFig6',  action = 'store_true', help = 'Default - False; If present, save a standard view of the target data along all 3 cardinal axes')
+    parser.add_argument('-saveFig7',  action = 'store_true', help = 'Default - False; If present, save a scatter plot of all points along the AP axis')
+    parser.add_argument('-saveFig8',  action = 'store_true', help = 'Default - False; If present, save a standard view of the qJU object along the AP axis')
+    parser.add_argument('-saveFig9',  action = 'store_true', help = 'Default - False; If present, save a standard view of the qJU object along the AP axis with points superimposed')
+    parser.add_argument('-saveFig10', action = 'store_true', help = 'Default - False; If present, save a standard view of the downsampled target data along all 3 cardinal axes')
+    parser.add_argument('-saveFig11', action = 'store_true', help = 'Default - False; If present, save a plot of the xv*xId object')
+    parser.add_argument('-saveFig12', action = 'store_true', help = 'Default - False; If present, save a plot of the B object')
+    parser.add_argument('-saveFig13', action = 'store_true', help = 'Default - False; If present, save a color gradient')
+    parser.add_argument('-saveFig14', action = 'store_true', help = 'Default - False; If present, save a color gradient')
+    parser.add_argument('-saveFig15', action = 'store_true', help = 'Default - False; If present, save a color gradient')
+    parser.add_argument('-saveFig16', action = 'store_true', help = 'Default - False; If present, save a color gradient')
     
     args = parser.parse_args()
 
@@ -147,7 +181,7 @@ def main():
     xI = data_I['xI']
     I = I / I.max() # Normalize atlas values
 
-    lowert = 0.15
+    lowert = 0.15 # TODO: Decide if this should be a passable argument
     M = I<lowert # find a mask for the background
     I[M] = 1.0
     I = (1 - I)
@@ -158,7 +192,7 @@ def main():
 
     if saveAllFigs or saveFig0:
         fig, axs = draw(I,xI,function=getslice)
-        fig.savefig(os.path.join(outdir, 'interp_atlas.png'))
+        fig.savefig(os.path.join(outdir, 'fig0_interp_atlas.png'))
 
     if verbose:
         print('Successfully loaded atlas file . . .')
@@ -172,17 +206,17 @@ def main():
 
     if saveAllFigs or saveFig1:
         fig, axs = draw((L%256)==16,xI,)
-        fig.savefig(os.path.join(outdir, 'interp_atlas_labels.png'))
+        fig.savefig(os.path.join(outdir, 'fig1_interp_atlas_labels.png'))
 
     qIU = np.stack(np.meshgrid(*xI,indexing='ij'),-1)[(L[0]%256)==16]
-    nqU = 1000
+    nqU = 1000 # TODO: Decide if this should be a passable argument
     qIU = qIU[np.random.permutation(qIU.shape[0])[:nqU]]
 
     if saveAllFigs or saveFig2:
         fig = plt.figure()
         ax = fig.add_subplot(projection='3d')
         ax.scatter(*qIU.T)
-        fig.savefig(os.path.join(outdir, 'scattered_labels.png'))
+        fig.savefig(os.path.join(outdir, 'fig2_scattered_labels.png'))
 
     SigmaQIU = []
     for j in range(3):
@@ -215,8 +249,8 @@ def main():
     
     # Normalize J
     Jsave = J.copy()
-    low = 0
-    high = 1500
+    low = 0 # TODO: Decide if this should be a passable argument
+    high = 1500 # TODO: Decide if this should be a passable argument
     J = Jsave.copy().clip(low,high)
     WJ = 1.0 - (J == high)
     J = J - low
@@ -227,19 +261,19 @@ def main():
 
     if saveAllFigs or saveFig3:
         fig, axs = draw((J*WJ)[sl],[x[s] for s,x in zip(sl[1:],xJ)],function=getslice)
-        fig.savefig(os.path.join(outdir, 'fig2_target_slice0.png'))
+        fig.savefig(os.path.join(outdir, 'fig3_target_slice0.png'))
 
     if saveAllFigs or saveFig4:
         fig, axs = draw((J*WJ)[sl],[x[s] for s,x in zip(sl[1:],xJ)])
-        fig.savefig(os.path.join(outdir, 'fig3_target_MIP.png'))
+        fig.savefig(os.path.join(outdir, 'fig4_target_MIP.png'))
 
     if saveAllFigs or saveFig5:
         fig, axs = draw(J*WJ,xJ,function=getslice)
-        fig.savefig(os.path.join(outdir, 'fig4_target_slice1.png'))
+        fig.savefig(os.path.join(outdir, 'fig5_target_slice1.png'))
 
     if saveAllFigs or saveFig6:
         fig, axs = draw(WJ,xJ,function=getslice)
-        fig.savefig(os.path.join(outdir, 'fig5_target_slice2.png'))
+        fig.savefig(os.path.join(outdir, 'fig6_target_slice2.png'))
 
     if verbose:
         print('Successfully loaded target image data and axes files . . .')
@@ -262,19 +296,19 @@ def main():
         ax = fig.add_subplot(projection='3d')
         ax.scatter(*qJU.T)
         ax.set_aspect('equal')
-        fig.savefig(os.path.join(outdir, 'fig6_qJU_scatter.png'))
+        fig.savefig(os.path.join(outdir, 'fig7_qJU_scatter.png'))
 
     if saveAllFigs or saveFig8:
         fig,ax = plt.subplots()
         ax.imshow(J.sum((0,1)),extent=(xJ[2][0],xJ[2][-1],xJ[1][-1],xJ[1][0]))
         ax.plot(qJU[:,2],qJU[:,1])
-        fig.savefig(os.path.join(outdir, 'fig7_qJU0.png'))
+        fig.savefig(os.path.join(outdir, 'fig8_qJU0.png'))
         
     if saveAllFigs or saveFig9:
         fig,ax = plt.subplots()
         ax.imshow(J[0,:,J.shape[2]//2],extent=(xJ[2][0],xJ[2][-1],xJ[0][-1],xJ[0][0]))
         ax.plot(qJU[:,2],qJU[:,0])
-        fig.savefig(os.path.join(outdir, 'fig8_qJU1.png'))
+        fig.savefig(os.path.join(outdir, 'fig9_qJU1.png'))
 
     if verbose:
         print('Successfully loaded target image points file . . .')
@@ -283,13 +317,13 @@ def main():
     # ===== Preprocessing =====
     # =========================
 
-    # Downsample the atlas image, I
+    # Downsample the atlas image, I, and target iamge, J
     xId,Id = emlddmm.downsample_image_domain(xI,I,down)
     xJd,Jd,WJd = emlddmm.downsample_image_domain([x[s] for x,s in zip(xJ,sl[1:])],J[sl],down,W=WJ[0][sl[1:]])    
 
     if saveAllFigs or saveFig10:
         fig, axs = draw(Jd*WJd,xJd,function=getslice)
-        fig.savefig(os.path.join(outdir, 'fig9_target_down.png'))
+        fig.savefig(os.path.join(outdir, 'fig10_target_down.png'))
 
     # Convert input data from Numpy to torch format
     dd = {'device':device,'dtype':dtype}
@@ -309,6 +343,7 @@ def main():
     SigmaQIU = torch.tensor(SigmaQIU,**dd)
 
     # Initialize parameters for deformation portion of registration
+    # TODO: Decide if any of these should be passable arguments
     nt = 5
     dt = 1.0/nt
     a = 200.0
@@ -340,13 +375,13 @@ def main():
         fig,ax = plt.subplots()
         ax.plot(xv[0],squish.detach())
         ax.plot(xId[0],squishb.detach())
-        fig.savefig(os.path.join(outdir, 'fig10_xv_xId.png'))
+        fig.savefig(os.path.join(outdir, 'fig11_xv_xId.png'))
         
 
     if saveAllFigs or saveFig12:
         fig,ax = plt.subplots()
         ax.imshow(B)        
-        fig.savefig(os.path.join(outdir, 'fig11_B.png'))
+        fig.savefig(os.path.join(outdir, 'fig12_B.png'))
 
     # Initalize the final permutation
     P = torch.eye(4)[[1,2,0,3]]
@@ -408,9 +443,9 @@ def main():
     ATsave = []
     update_v = False
     vstart = -1
-    blocksize = 50
     
     # Initalize various step sizes
+    # TODO: Decide if any of these should be passable arguments
     epv = 5e4
     eptheta = 5e-4
     epSquish = 2e-4
@@ -471,7 +506,7 @@ def main():
         
         Xs = Xs - Tcat    
         Xs = (rotmat@squishmat@Xs[...,None])[...,0]
-    
+
         # Third, compute the diffeo
         phii = phii_from_v(xv,v)
         Xs = interp(xv,(phii-XV).permute(-1,0,1,2),Xs).permute(1,2,3,0) + Xs
@@ -592,10 +627,6 @@ def main():
         axQ.scatter(*phiiQJU.detach().cpu().T,label='phiiQJU',alpha=0.1)
         axQ.legend()
         figQ.canvas.draw()
-
-        if saveAllFigs or saveIntermediateFigs:
-            figQ.savefig(os.path.join(outdir,f'out_Q_it_{it:06d}.png'))
-            figErr.savefig(os.path.join(outdir,f'out_err_it_{it:06d}.png'))
         
         nshow = nrow*ncol            
         slices = np.round(np.linspace(0,Jd.shape[-1]-1,nshow+2)).astype(int)
@@ -608,13 +639,15 @@ def main():
         
         figS.subplots_adjust(left=0,right=1,bottom=0,top=1,hspace=0,wspace=0)
         if saveAllFigs or saveIntermediateFigs:
+            figQ.savefig(os.path.join(outdir,f'out_Q_it_{it:06d}.png'))
+            figErr.savefig(os.path.join(outdir,f'out_err_it_{it:06d}.png'))
             figS.savefig(os.path.join(outdir,f'out_S_it_{it:06d}.png'))
         
     # =====================================        
     # ===== Save all relevant outputs =====
     # =====================================
 
-    # First, save the relevant parameters
+    # First, save the final registered versions of all relevant parameters
     np.savez(os.path.join(outdir,'saved_parameters.npz'),
              theta=theta.detach().cpu().numpy(),
              T=T.detach().cpu().numpy(),
@@ -639,8 +672,6 @@ def main():
         Ai = torch.diag((-stretch).exp())@Ai
         Xs = (Ai[:3,:3]@XJd[...,None])[...,0] + Ai[:3,-1]
 
-        # Next, compute the squish    
-    
         # Since these operations do not change the z coordinate, I can interpolate them all at once
         tosample = torch.concatenate((Tb.T,squishb[None],thetab[None]))    
         out = interp1d(xId,tosample,Xs,dd)    
@@ -710,7 +741,7 @@ def main():
     np.save(os.path.join(outdir,'interpolated_atlas_to_spine_reflection_v04.npy'),OUT)
 
     if saveAllFigs or saveFig13:
-        fig.savefig(os.path.join(outdir, 'fig12_interp_atlas_to_spine.png'))
+        fig.savefig(os.path.join(outdir, 'fig13_interp_atlas_to_spine.png'))
 
     # Save the forward and inverse transform
     with torch.no_grad():
@@ -798,18 +829,18 @@ def main():
     OUT = OUT.numpy()
 
     if saveAllFigs or saveFig14:
-        fig.savefig(os.path.join(outdir, 'fig13_high_res.png'))
+        fig.savefig(os.path.join(outdir, 'fig14_high_res.png'))
 
     if saveAllFigs or saveFig15:
         fig,ax = plt.subplots()
         ax.imshow((out[0] - out.min())/(out.max()-out.min()))
-        fig.savefig(os.path.join(outdir, 'fig14_high_res0.png'))
+        fig.savefig(os.path.join(outdir, 'fig15_high_res0.png'))
 
     if saveAllFigs or saveFig16:
         i = Xs.shape[0]-1
         fig,ax = plt.subplots()
         ax.imshow((Xs.detach()[i] - Xs.detach()[i].min())/(Xs.detach()[i].max()-Xs.detach()[i].min()))
-        fig.savefig(os.path.join(outdir, 'fig15_high_res1.png'))
+        fig.savefig(os.path.join(outdir, 'fig16_high_res1.png'))
 
     if verbose:
         print(f'Successfully registered {fname_J} to {fname_I} and saved all outputs in {outdir}')

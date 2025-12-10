@@ -127,7 +127,7 @@ def interp1d(xI,squish,Xs,dd,**kwargs):
     samples = torch.stack([Xs[...,0].squeeze(),torch.zeros_like(Xs[...,0].squeeze())],-1)
     # for the input, we keep the channel dimension, keep the first coordinate, and add a fake second coordinate
     squishin = squish[:,:,None]
-    out = interp([xI[0],torch.tensor([-0.5,0.5],**dd)],squishin,samples.reshape(-1,1,2),**kwargs)
+    out = interp([xI[0],torch.Tensor([-0.5,0.5],**dd)],squishin,samples.reshape(-1,1,2),**kwargs)
     
     return out.reshape((squish.shape[0],)+samples.shape[:-1])    
 
@@ -139,9 +139,9 @@ def phii_from_v(xv,v):
 
     Parameters:
     -----------
-    xv : ...
+    xv : list of torch.Tensor
         ...
-    v : ...
+    v : torch.Tensor
         ...
 
     Returns:
@@ -164,8 +164,8 @@ def toblocks(Jd,blocksize):
 
     Parameters:
     -----------
-    Jd : ...
-        ...
+    Jd : torch.Tensor
+        A 3D image volume with 1 additional batch dimension
     blocksize : int
         ...
 
@@ -174,12 +174,12 @@ def toblocks(Jd,blocksize):
     Jdpp : ...
         ...
     """
-    nblocks = torch.ceil(torch.tensor(Jd.shape[1:],**dd)/blocksize ).to(int)
-    topad = nblocks*blocksize - torch.tensor(Jd.shape[1:],device=device)
+    nblocks = torch.ceil(torch.Tensor(Jd.shape[1:],**dd)/blocksize ).to(int)
+    topad = nblocks*blocksize - torch.Tensor(Jd.shape[1:],device=device)
     topadlist = [topad[-1],0,topad[-2],0,topad[-3],0] # this pads the left
     Jdp = torch.nn.functional.pad(Jd,topadlist,mode='reflect')
     Jdpv = Jdp.reshape(Jdp.shape[0],nblocks[0],blocksize,nblocks[1],blocksize,nblocks[2],blocksize)
-    Jdpp = Jdpv.permute(1,3,5,0,2,4,6)#.reshape(-1,Jdpv.shape[0],blocksize,blocksize,blocksize)
+    Jdpp = Jdpv.permute(1,3,5,0,2,4,6)
     return Jdpp
 
 
@@ -191,8 +191,8 @@ def fromblocks(fphiIpp,Jdsize):
     -----------
     fphiIpp : ...
         ...
-    Jdsize : ...
-        ...
+    Jdsize : torch.Tensor
+        The shape of the downsampled target data
 
     Returns:
     --------
@@ -201,9 +201,9 @@ def fromblocks(fphiIpp,Jdsize):
     """
     # undo the permutation
     blocksize = fphiIpp.shape[-1]
-    nblocks = torch.ceil(torch.tensor(Jdsize[-3:],**dd)/blocksize ).to(int)
+    nblocks = torch.ceil(torch.Tensor(Jdsize[-3:],**dd)/blocksize ).to(int)
     #print(nblocks)
-    topad = nblocks*blocksize - torch.tensor(Jdsize[-3:],device=device)
+    topad = nblocks*blocksize - torch.Tensor(Jdsize[-3:],device=device)
     fphiIpv = fphiIpp.permute(3,0,4,1,5,2,6)
     # NOTE THIS SIZE 1 IS HARD CODED
     fphiIp = fphiIpv.reshape(1,nblocks[0]*blocksize,nblocks[1]*blocksize,nblocks[2]*blocksize)
