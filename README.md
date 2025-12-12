@@ -6,16 +6,16 @@ The pipeline contains X key stages:
 
 1. Load + preprocess input files (I, J, L, pointsJ)
 
-    - Include images of I, H, and L before (and after, if applicable) preprocessing
+    - TODO: Include images of I, J, L, and pointsJ before (and after, if applicable) preprocessing
 
 2. Register the target image, J,  to the atlas image, I
 
-    - Include images of J before and after registration
+    - TODO: Include images of J before and after registration
 
 3. Postprocess + save relevant outputs 
 
-    - Also include important plots
-    - Define all outputs
+    - TODO: Also include important plots
+    - TODO: Define all outputs
 
 Final contents:
 - spine_reg.py
