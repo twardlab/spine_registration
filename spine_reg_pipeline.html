@@ -62,55 +62,55 @@
 </dd>
 <dt>e_path<span class="classifier">str</span></dt><dd><p>The location of the custom Python library ‘emlddmm’, which can be cloned from GitHub at <a class="reference external" href="https://github.com/twardlab/emlddmm">https://github.com/twardlab/emlddmm</a></p>
 </dd>
-<dt>device<span class="classifier">str</span></dt><dd><p>Default - cpu; The device where registration computations should occur</p>
+<dt>-device<span class="classifier">str</span></dt><dd><p>Default - cpu; The device where registration computations should occur</p>
 </dd>
-<dt>dtype<span class="classifier">torch.dtype</span></dt><dd><p>Default - torch.float32; The data type used for the voxel values in image registration</p>
+<dt>-dtype<span class="classifier">torch.dtype</span></dt><dd><p>Default - torch.float32; The data type used for the voxel values in image registration</p>
 </dd>
-<dt>niter<span class="classifier">int</span></dt><dd><p>Default - 5000; The number of iterations to use for image registration</p>
+<dt>-niter<span class="classifier">int</span></dt><dd><p>Default - 5000; The number of iterations to use for image registration</p>
 </dd>
-<dt>down<span class="classifier">list of int</span></dt><dd><p>Default - [8,8,8]; The factor used to downsample along each axis of I, respectively</p>
+<dt>-down<span class="classifier">list of int</span></dt><dd><p>Default - [8,8,8]; The factor used to downsample along each axis of I, respectively</p>
 </dd>
-<dt>blocksize<span class="classifier">int</span></dt><dd><p>Default - 50; TODO: …</p>
+<dt>-blocksize<span class="classifier">int</span></dt><dd><p>Default - 50; TODO: …</p>
 </dd>
-<dt>verbose<span class="classifier">bool</span></dt><dd><p>Default - False; If present, print out several progress messages throughout the registration process</p>
+<dt>-verbose<span class="classifier">bool</span></dt><dd><p>Default - False; If present, print out several progress messages throughout the registration process</p>
 </dd>
-<dt>saveAllFigs<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save every intermediate figure generated before, during, and after registration</p>
+<dt>-saveAllFigs<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save every intermediate figure generated before, during, and after registration</p>
 </dd>
-<dt>saveIntermediateFigs<span class="classifier">bool</span></dt><dd><p>Default - false; If present, save intermediate figures at each iteration of the registration process</p>
+<dt>-saveIntermediateFigs<span class="classifier">bool</span></dt><dd><p>Default - false; If present, save intermediate figures at each iteration of the registration process</p>
 </dd>
-<dt>saveFig0<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a MIP of the interpolated atlas provided</p>
+<dt>-saveFig0<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a MIP of the interpolated atlas provided</p>
 </dd>
-<dt>saveFig1<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a MIP of the interpolated atlas labels provided</p>
+<dt>-saveFig1<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a MIP of the interpolated atlas labels provided</p>
 </dd>
-<dt>saveFig2<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a scatter plot of all the points labeled in the interpolated atlas porvided</p>
+<dt>-saveFig2<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a scatter plot of all the points labeled in the interpolated atlas porvided</p>
 </dd>
-<dt>saveFig3<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a standard view of the target data along all 3 cardinal axes</p>
+<dt>-saveFig3<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a standard view of the target data along all 3 cardinal axes</p>
 </dd>
-<dt>saveFig4<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a MIP of the target data along all 3 cardinal axes</p>
+<dt>-saveFig4<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a MIP of the target data along all 3 cardinal axes</p>
 </dd>
-<dt>saveFig5<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a standard view of the target data along all 3 cardinal axes</p>
+<dt>-saveFig5<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a standard view of the target data along all 3 cardinal axes</p>
 </dd>
-<dt>saveFig6<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a standard view of the target data along all 3 cardinal axes</p>
+<dt>-saveFig6<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a standard view of the target data along all 3 cardinal axes</p>
 </dd>
-<dt>saveFig7<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a save a scatter plot of all points along the AP axis</p>
+<dt>-saveFig7<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a save a scatter plot of all points along the AP axis</p>
 </dd>
-<dt>saveFig8<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a standard view of the qJU object along the AP axis</p>
+<dt>-saveFig8<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a standard view of the qJU object along the AP axis</p>
 </dd>
-<dt>saveFig9<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a save a standard view of the qJU object along the AP axis with points superimposed</p>
+<dt>-saveFig9<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a save a standard view of the qJU object along the AP axis with points superimposed</p>
 </dd>
-<dt>saveFig10<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a save a standard view of the downsampled target data along all 3 cardinal axes</p>
+<dt>-saveFig10<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a save a standard view of the downsampled target data along all 3 cardinal axes</p>
 </dd>
-<dt>saveFig11<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a save a plot of the xv*xId object</p>
+<dt>-saveFig11<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a save a plot of the xv*xId object</p>
 </dd>
-<dt>saveFig12<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a save a plot of the B object</p>
+<dt>-saveFig12<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a save a plot of the B object</p>
 </dd>
-<dt>saveFig13<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a color gradient</p>
+<dt>-saveFig13<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a color gradient</p>
 </dd>
-<dt>saveFig14<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a color gradient</p>
+<dt>-saveFig14<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a color gradient</p>
 </dd>
-<dt>saveFig15<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a color gradient</p>
+<dt>-saveFig15<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a color gradient</p>
 </dd>
-<dt>saveFig16<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a color gradient</p>
+<dt>-saveFig16<span class="classifier">bool</span></dt><dd><p>Default - False; If present, save a color gradient</p>
 </dd>
 </dl>
 </section>
