@@ -34,18 +34,18 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 import sys
 import os
-# from pathlib import Path
+from pathlib import Path
 
 # sys.path.append('/home/runner/work/spine_registration/spine_registration/docs')
 # sys.path.append('/home/runner/work/spine_registration/spine_registration/docs/notebooks')
 # sys.path.append('/home/runner/work/spine_registration/spine_registration/docs/scripts')
+
 # sys.path.insert(0, os.path.abspath("../source/"))
 # sys.path.insert(0, os.path.abspath("../source/notebooks"))
-sys.path.insert(0, os.path.abspath("../scripts"))
+# sys.path.insert(0, os.path.abspath("../scripts"))
 
-# sys.path.insert(0, str(Path('..', 'source').resolve()))
-# sys.path.insert(0, str(Path('..', 'source', 'notebooks').resolve()))
-# sys.path.insert(0, str(Path('..', 'source', 'scripts').resolve()))
+sys.path.insert(0, str(Path('..', 'source').resolve()))
+sys.path.insert(0, str(Path('..', 'source', 'scripts').resolve()))
 
 
 # -- Options for HTML output -------------------------------------------------
