@@ -3,13 +3,19 @@
 This repository contains several Python scripts and example notebooks for registering a microscopy image of spinal tissue to an atlas image of the same location. Documentation for every function within this package can be found here: https://twardlab.github.io/spine_registration.
 
 The pipeline contains X key stages:
-#. Load + preprocess input files (I, J, L, pointsJ)
-  * Include images of I, H, and L before (and after, if applicable) preprocessing
-#. Register the target image, J,  to the atlas image, I
-  * Include images of J before and after registration
-#. Also include important plots
-  * Postprocess + save relevant outputs
-  * Define all outputs
+
+1. Load + preprocess input files (I, J, L, pointsJ)
+
+    - Include images of I, H, and L before (and after, if applicable) preprocessing
+
+2. Register the target image, J,  to the atlas image, I
+
+    - Include images of J before and after registration
+
+3. Postprocess + save relevant outputs 
+
+    - Also include important plots
+    - Define all outputs
 
 Final contents:
 - spine_reg.py
