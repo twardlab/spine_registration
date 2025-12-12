@@ -23,55 +23,55 @@ def main():
         The directory where all output files should be saved
     e_path : str
         The location of the custom Python library \'emlddmm\', which can be cloned from GitHub at https://github.com/twardlab/emlddmm
-    device : str
+    -device : str
         Default - cpu; The device where registration computations should occur
-    dtype : torch.dtype
+    -dtype : torch.dtype
         Default - torch.float32; The data type used for the voxel values in image registration
-    niter : int
+    -niter : int
         Default - 5000; The number of iterations to use for image registration
-    down : list of int
+    -down : list of int
         Default - [8,8,8]; The factor used to downsample along each axis of I, respectively
-    blocksize : int
+    -blocksize : int
         Default - 50; TODO: ...
-    verbose : bool
+    -verbose : bool
         Default - False; If present, print out several progress messages throughout the registration process
-    saveAllFigs : bool
+    -saveAllFigs : bool
         Default - False; If present, save every intermediate figure generated before, during, and after registration
-    saveIntermediateFigs : bool
+    -saveIntermediateFigs : bool
         Default - false; If present, save intermediate figures at each iteration of the registration process
-    saveFig0 : bool
+    -saveFig0 : bool
         Default - False; If present, save a MIP of the interpolated atlas provided
-    saveFig1 : bool
+    -saveFig1 : bool
         Default - False; If present, save a MIP of the interpolated atlas labels provided
-    saveFig2 : bool
+    -saveFig2 : bool
         Default - False; If present, save a scatter plot of all the points labeled in the interpolated atlas porvided
-    saveFig3 : bool
+    -saveFig3 : bool
         Default - False; If present, save a standard view of the target data along all 3 cardinal axes
-    saveFig4 : bool
+    -saveFig4 : bool
         Default - False; If present, save a MIP of the target data along all 3 cardinal axes
-    saveFig5 : bool
+    -saveFig5 : bool
         Default - False; If present, save a standard view of the target data along all 3 cardinal axes
-    saveFig6 : bool
+    -saveFig6 : bool
         Default - False; If present, save a standard view of the target data along all 3 cardinal axes
-    saveFig7 : bool
+    -saveFig7 : bool
         Default - False; If present, save a save a scatter plot of all points along the AP axis
-    saveFig8 : bool
+    -saveFig8 : bool
         Default - False; If present, save a standard view of the qJU object along the AP axis
-    saveFig9 : bool
+    -saveFig9 : bool
         Default - False; If present, save a save a standard view of the qJU object along the AP axis with points superimposed
-    saveFig10 : bool
+    -saveFig10 : bool
         Default - False; If present, save a save a standard view of the downsampled target data along all 3 cardinal axes
-    saveFig11 : bool
+    -saveFig11 : bool
         Default - False; If present, save a save a plot of the xv*xId object
-    saveFig12 : bool
+    -saveFig12 : bool
         Default - False; If present, save a save a plot of the B object
-    saveFig13 : bool
+    -saveFig13 : bool
         Default - False; If present, save a color gradient
-    saveFig14 : bool
+    -saveFig14 : bool
         Default - False; If present, save a color gradient
-    saveFig15 : bool
+    -saveFig15 : bool
         Default - False; If present, save a color gradient
-    saveFig16 : bool
+    -saveFig16 : bool
         Default - False; If present, save a color gradient
 
     Raises:
