@@ -32,8 +32,8 @@ latex_documents = [
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-# import sys
-# import os
+import sys
+import os
 # from pathlib import Path
 
 # sys.path.append('/home/runner/work/spine_registration/spine_registration/docs')
@@ -41,7 +41,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # sys.path.append('/home/runner/work/spine_registration/spine_registration/docs/scripts')
 # sys.path.insert(0, os.path.abspath("../source/"))
 # sys.path.insert(0, os.path.abspath("../source/notebooks"))
-# sys.path.insert(0, os.path.abspath("../source/scripts"))
+sys.path.insert(0, os.path.abspath("../scripts"))
 
 # sys.path.insert(0, str(Path('..', 'source').resolve()))
 # sys.path.insert(0, str(Path('..', 'source', 'notebooks').resolve()))
