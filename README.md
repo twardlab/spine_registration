@@ -1,6 +1,6 @@
 # Spine Registration
 
-https://twardlab.github.io/spine_registration/
+This repository contains several Python scripts and example notebooks for registering a microscopy image of spinal tissue to an atlas image of the same location. Documentation for every function within this package can be found here: https://twardlab.github.io/spine_registration.
 
 Final contents:
 - spine_reg.py
