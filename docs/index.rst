@@ -6,6 +6,8 @@
 Welcome to the documentation for the spine image registration pipeline!
 =======================================================================
 
+Below we include module documentation and examples.
+
 .. toctree::
    :maxdepth: 1
    :caption: Table of Contents:
