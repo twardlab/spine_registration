@@ -1,7 +1,7 @@
-The complete spine image registration pipeline
-==============================================
+Spine Registration Pipeline
+===========================
 
-.. automodule:: spine_reg_pipeline
+.. automodule:: scripts/spine_reg_pipeline
    :members:
    :undoc-members:
    :show-inheritance:
