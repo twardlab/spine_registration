@@ -33,7 +33,7 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 import sys
-import os
+# import os
 from pathlib import Path
 
 # sys.path.append('/home/runner/work/spine_registration/spine_registration/docs')
@@ -45,7 +45,7 @@ from pathlib import Path
 # sys.path.insert(0, os.path.abspath("../scripts"))
 
 sys.path.insert(0, str(Path('..', 'source').resolve()))
-sys.path.insert(0, str(Path('..', 'source', 'scripts').resolve()))
+# sys.path.insert(0, str(Path('..', 'source', 'scripts').resolve()))
 
 
 # -- Options for HTML output -------------------------------------------------
