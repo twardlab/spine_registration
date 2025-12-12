@@ -10,8 +10,8 @@ Welcome to the documentation for the spine image registration pipeline!
    :maxdepth: 1
    :caption: Table of Contents:
 
-   scripts/spine_reg_pipeline
-   scripts/spine_reg
+   spine_reg_pipeline
+   spine_reg
 
 .. toctree::
    :maxdepth: 1
