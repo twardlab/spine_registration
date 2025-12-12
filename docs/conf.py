@@ -33,9 +33,13 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 import sys
-sys.path.append('/home/runner/work/spine_registration/spine_registration/docs')
-sys.path.append('/home/runner/work/spine_registration/spine_registration/docs/notebooks')
-sys.path.append('/home/runner/work/spine_registration/spine_registration/docs/scripts')
+# sys.path.append('/home/runner/work/spine_registration/spine_registration/docs')
+# sys.path.append('/home/runner/work/spine_registration/spine_registration/docs/notebooks')
+# sys.path.append('/home/runner/work/spine_registration/spine_registration/docs/scripts')
+sys.path.insert(0, os.path.abspath("../source/"))
+sys.path.insert(0, os.path.abspath("../source/notebooks"))
+sys.path.insert(0, os.path.abspath("../source/scripts"))
+
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
