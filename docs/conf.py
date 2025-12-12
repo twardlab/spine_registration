@@ -45,7 +45,7 @@ from pathlib import Path
 # sys.path.insert(0, os.path.abspath("../scripts"))
 
 sys.path.insert(0, str(Path('..', 'source').resolve()))
-# sys.path.insert(0, str(Path('..', 'source', 'scripts').resolve()))
+sys.path.insert(0, str(Path('..', 'source', 'scripts').resolve()))
 
 
 # -- Options for HTML output -------------------------------------------------
