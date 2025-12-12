@@ -1,7 +1,7 @@
 Spine Registration Helper Functions
 ===================================
 
-.. automodule:: spine_reg
+.. automodule:: scripts/spine_reg
    :members:
    :undoc-members:
    :show-inheritance:
