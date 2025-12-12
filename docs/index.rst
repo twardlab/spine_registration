@@ -17,7 +17,7 @@ Welcome to the documentation for the spine image registration pipeline!
    :maxdepth: 1
    :caption: Example Jupyter Notebook
 
-   example.ipynb
+   ../source/notebooks/example.ipynb
 
 Indices and tables
 ==================
