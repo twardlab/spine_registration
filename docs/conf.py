@@ -29,6 +29,9 @@ latex_documents = [
     ('index', 'spine_registration.tex', project, author, 'manual'),
 ]
 
+# Skip the following packages when building documentation
+autodoc_mock_imports = ['torch']
+
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
