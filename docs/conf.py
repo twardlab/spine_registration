@@ -17,7 +17,8 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
     'nbsphinx',
-    'sphinxcontrib.htmlhelp'
+    'sphinxcontrib.htmlhelp',
+    'sphinx.ext.viewcode'
 ]
 
 # Jupyter Notebook configurations
