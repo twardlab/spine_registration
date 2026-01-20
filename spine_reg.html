@@ -31,6 +31,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="notebooks/example.html" title="Spine Registration Example"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -46,8 +49,197 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <section id="spine-registration-helper-functions">
-<h1>Spine Registration Helper Functions<a class="headerlink" href="#spine-registration-helper-functions" title="Link to this heading">¶</a></h1>
+  <section id="module-spine_reg">
+<span id="spine-registration-helper-functions"></span><h1>Spine Registration Helper Functions<a class="headerlink" href="#module-spine_reg" title="Link to this heading">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="spine_reg.draw">
+<span class="sig-prename descclassname"><span class="pre">spine_reg.</span></span><span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xI=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fig=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function=&lt;function</span> <span class="pre">sum&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spine_reg.html#draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spine_reg.draw" title="Link to this definition">¶</a></dt>
+<dd><p>Generate a plot of ‘I’ along the 3 cardinal planes - Coronal, sagittal, and transverse.</p>
+<section id="parameters">
+<h2>Parameters:<a class="headerlink" href="#parameters" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>I<span class="classifier">array</span></dt><dd><p>A 3D image volume</p>
+</dd>
+<dt>xI<span class="classifier">list of array</span></dt><dd><p>A list of the coordinates along each dimension of I</p>
+</dd>
+<dt>fig<span class="classifier">matplotlib.figure</span></dt><dd><p>A figure on which new plots will be generated</p>
+</dd>
+<dt>function<span class="classifier">Python function</span></dt><dd><p>Default - np.sum(), will produce a Maximum Intensity Projection; The function used to generate the 3 views of I.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h2>Returns:<a class="headerlink" href="#returns" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>axs<span class="classifier">np.array of matplotlib.axes</span></dt><dd><p>Each element of axs contains 1 of the 3 cardinal views of I</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spine_reg.fromblocks">
+<span class="sig-prename descclassname"><span class="pre">spine_reg.</span></span><span class="sig-name descname"><span class="pre">fromblocks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fphiIpp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Jdsize</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spine_reg.html#fromblocks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spine_reg.fromblocks" title="Link to this definition">¶</a></dt>
+<dd><p>…</p>
+<section id="id1">
+<h2>Parameters:<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>fphiIpp<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+<dt>Jdsize<span class="classifier">torch.Tensor</span></dt><dd><p>The shape of the downsampled target data</p>
+</dd>
+</dl>
+</section>
+<section id="id2">
+<h2>Returns:<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>output<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spine_reg.getslice">
+<span class="sig-prename descclassname"><span class="pre">spine_reg.</span></span><span class="sig-name descname"><span class="pre">getslice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spine_reg.html#getslice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spine_reg.getslice" title="Link to this definition">¶</a></dt>
+<dd><p>Return a 2D slice of the 3D image volume ‘I’</p>
+<section id="id3">
+<h2>Parameters:<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>I<span class="classifier">array</span></dt><dd><p>A 3D image volume</p>
+</dd>
+<dt>ax<span class="classifier">int</span></dt><dd><p>Options : -1, -2, -3; The axis of I from which a slice should be extracted</p>
+</dd>
+</dl>
+</section>
+<section id="id4">
+<h2>Returns:<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<p>A subset of I along the desired axis</p>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spine_reg.interp">
+<span class="sig-prename descclassname"><span class="pre">spine_reg.</span></span><span class="sig-name descname"><span class="pre">interp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">I</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spine_reg.html#interp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spine_reg.interp" title="Link to this definition">¶</a></dt>
+<dd><p>Interpolate …</p>
+<section id="id5">
+<h2>Parameters:<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>xI<span class="classifier">list of array</span></dt><dd><p>A list of the coordinates along each dimension of I</p>
+</dd>
+<dt>I<span class="classifier">array</span></dt><dd><p>A 3D image volume</p>
+</dd>
+<dt>Xs<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h2>Returns:<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>output<span class="classifier">torch.Tensor</span></dt><dd><p>…</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spine_reg.interp1d">
+<span class="sig-prename descclassname"><span class="pre">spine_reg.</span></span><span class="sig-name descname"><span class="pre">interp1d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">squish</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dd</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spine_reg.html#interp1d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spine_reg.interp1d" title="Link to this definition">¶</a></dt>
+<dd><p>Hack for 1D interpolation</p>
+<section id="id7">
+<h2>Parameters:<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>xI<span class="classifier">list of array</span></dt><dd><p>A list of the coordinates along each dimension of I</p>
+</dd>
+<dt>squish<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+<dt>Xs<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+<dt>dd<span class="classifier">dict</span></dt><dd><p>A Python dictionary with 2 keys ‘device’ and ‘dtype’, which specifies those 2 PyTorch paremeters for computation</p>
+</dd>
+</dl>
+</section>
+<section id="id8">
+<h2>Returns:<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>output<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spine_reg.measure_matching_dot">
+<span class="sig-prename descclassname"><span class="pre">spine_reg.</span></span><span class="sig-name descname"><span class="pre">measure_matching_dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">qIU</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wIU</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phiiQJU</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wphiiQJU</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">SigmaQIU</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spine_reg.html#measure_matching_dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spine_reg.measure_matching_dot" title="Link to this definition">¶</a></dt>
+<dd><p>…</p>
+<section id="id9">
+<h2>Parameters:<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>qIU<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+<dt>wIU<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+<dt>phiiQJU<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+<dt>wphiiQJU<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+<dt>SigmaQIU<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h2>Returns:<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>output<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spine_reg.phii_from_v">
+<span class="sig-prename descclassname"><span class="pre">spine_reg.</span></span><span class="sig-name descname"><span class="pre">phii_from_v</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spine_reg.html#phii_from_v"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spine_reg.phii_from_v" title="Link to this definition">¶</a></dt>
+<dd><p>…</p>
+<section id="id11">
+<h2>Parameters:<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>xv<span class="classifier">list of torch.Tensor</span></dt><dd><p>…</p>
+</dd>
+<dt>v<span class="classifier">torch.Tensor</span></dt><dd><p>…</p>
+</dd>
+</dl>
+</section>
+<section id="id12">
+<h2>Returns:<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>phii<span class="classifier">torch.Tensor</span></dt><dd><p>…</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spine_reg.toblocks">
+<span class="sig-prename descclassname"><span class="pre">spine_reg.</span></span><span class="sig-name descname"><span class="pre">toblocks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Jd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocksize</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/spine_reg.html#toblocks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spine_reg.toblocks" title="Link to this definition">¶</a></dt>
+<dd><p>…</p>
+<section id="id13">
+<h2>Parameters:<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>Jd<span class="classifier">torch.Tensor</span></dt><dd><p>A 3D image volume with 1 additional batch dimension</p>
+</dd>
+<dt>blocksize<span class="classifier">int</span></dt><dd><p>…</p>
+</dd>
+</dl>
+</section>
+<section id="id14">
+<h2>Returns:<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>Jdpp<span class="classifier">…</span></dt><dd><p>…</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
 </section>
 
 
@@ -57,6 +249,23 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Spine Registration Helper Functions</a><ul>
+<li><a class="reference internal" href="#spine_reg.draw"><code class="docutils literal notranslate"><span class="pre">draw()</span></code></a></li>
+<li><a class="reference internal" href="#spine_reg.fromblocks"><code class="docutils literal notranslate"><span class="pre">fromblocks()</span></code></a></li>
+<li><a class="reference internal" href="#spine_reg.getslice"><code class="docutils literal notranslate"><span class="pre">getslice()</span></code></a></li>
+<li><a class="reference internal" href="#spine_reg.interp"><code class="docutils literal notranslate"><span class="pre">interp()</span></code></a></li>
+<li><a class="reference internal" href="#spine_reg.interp1d"><code class="docutils literal notranslate"><span class="pre">interp1d()</span></code></a></li>
+<li><a class="reference internal" href="#spine_reg.measure_matching_dot"><code class="docutils literal notranslate"><span class="pre">measure_matching_dot()</span></code></a></li>
+<li><a class="reference internal" href="#spine_reg.phii_from_v"><code class="docutils literal notranslate"><span class="pre">phii_from_v()</span></code></a></li>
+<li><a class="reference internal" href="#spine_reg.toblocks"><code class="docutils literal notranslate"><span class="pre">toblocks()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
   <div>
     <h4>Previous topic</h4>
     <p class="topless"><a href="spine_reg_pipeline.html"
@@ -94,6 +303,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="notebooks/example.html" title="Spine Registration Example"
              >next</a> |</li>
